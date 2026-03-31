@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#fed7aa" rx="12"/>
+  <circle cx="200" cy="120" r="60" fill="#c2410c" opacity="0.4"/>
+  <text x="200" y="125" font-family="Georgia,serif" font-size="28" fill="#7c2d12" text-anchor="middle">🍞</text>
+  <text x="200" y="220" font-family="Georgia,serif" font-size="20" fill="#7c2d12" text-anchor="middle" font-weight="bold">Pierzga</text>
+  <text x="200" y="250" font-family="sans-serif" font-size="13" fill="#9a3412" text-anchor="middle">400×300 placeholder</text>
+</svg>
