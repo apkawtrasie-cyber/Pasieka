@@ -8,9 +8,9 @@
  * ============================================================
  */
 
-import { CONFIG } from './config.js?v=6';
-import { initAnimations } from './animations.js?v=6';
-import { t, getLang, setLang, getFlags, getLangNames, getAvailableLangs, translatePage } from './i18n.js?v=6';
+import { CONFIG } from './config.js?v=7';
+import { initAnimations } from './animations.js?v=7';
+import { t, getLang, setLang, getFlags, getLangNames, getAvailableLangs, translatePage } from './i18n.js?v=7';
 
 /* ── App Object ── */
 const App = {

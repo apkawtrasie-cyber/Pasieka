@@ -62,14 +62,17 @@ body {
   background: radial-gradient(circle, rgba(212, 175, 55, 0.08), rgba(212, 175, 55, 0.02));
   will-change: transform;
   filter: blur(40px);
+  transform: translateZ(0);
 }
 
 /* ── Product card (dark premium) ── */
 .product-card {
   background: var(--color-bg-card);
   border: 1px solid rgba(212, 175, 55, 0.1);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  isolation: isolate;
 }
 
 .product-card:hover {
@@ -268,6 +271,32 @@ body {
   color: #e5c654 !important;
 }
 
+/* ── Glass panels — GPU acceleration ── */
+[class^="glass-"],
+[class*=" glass-"] {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  isolation: isolate;
+}
+
+/* ── GSAP animated elements — GPU layer ── */
+.gsap-fade-up,
+.gsap-fade-in,
+.gsap-scale-in {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+/* ── Hero video — GPU compositing ── */
+.hero-video-bg {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.hero-video-bg video {
+  will-change: transform;
+}
+
 /* ═══════════════════════════════════════════════════
    RESPONSYWNOŚĆ — Sekcja Produkty
    ═══════════════════════════════════════════════════ */
@@ -276,6 +305,7 @@ body {
 #produkty .product-card {
   background: transparent;
   border: none;
+  contain: layout style;
 }
 
 #produkty .product-card:hover {

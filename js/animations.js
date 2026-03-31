@@ -18,10 +18,21 @@ export function initAnimations() {
 
   gsap.registerPlugin(ScrollTrigger);
 
+  /* Konfiguracja wydajności */
+  gsap.config({
+    force3D: true,
+  });
+
+  ScrollTrigger.config({
+    limitCallbacks: true,
+    ignoreMobileResize: true,
+  });
+
   /* Ustawienia domyślne */
   gsap.defaults({
     ease: 'power2.out',
     duration: 0.8,
+    force3D: true,
   });
 
   /* Inicjalizacja animacji */
