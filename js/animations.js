@@ -44,7 +44,39 @@ function initVisibilityObserver() {
   });
 }
 
-/* Product cards + glass panels — static, no animation (mobile perf) */
+/* ══════════════════════════════════════════════════════════════
+   GLASS PANELS — subtle slide-in (IntersectionObserver, no GSAP)
+   ══════════════════════════════════════════════════════════════ */
+function initGlassPanels() {
+  const panels = document.querySelectorAll(
+    '.glass-lipowy, .glass-gryczany, .glass-akacjowy, .glass-spadziowy, .glass-nawlociowy'
+  );
+  if (!panels.length) return;
+
+  panels.forEach((panel) => {
+    const isLeft = panel.classList.contains('glass-gryczany') || panel.classList.contains('glass-spadziowy');
+    panel.style.opacity = '0';
+    panel.style.transform = `translateX(${isLeft ? -20 : 20}px)`;
+    panel.style.transition = 'opacity .6s ease, transform .6s ease';
+  });
+
+  let idx = 0;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const d = (idx % 3) * 100;
+        idx++;
+        setTimeout(() => {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'none';
+        }, d);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -5% 0px' });
+
+  panels.forEach((p) => observer.observe(p));
+}
 
 /* ══════════════════════════════════════════════════════════════
    ABOUT SECTION — IntersectionObserver
@@ -111,6 +143,7 @@ function initBenefitCards() {
 export function initAnimations() {
   // IntersectionObserver animations — work WITHOUT GSAP, zero reflow
   initVisibilityObserver();
+  initGlassPanels();
   initAboutAnimations();
   initBenefitCards();
 
@@ -132,16 +165,7 @@ export function initAnimations() {
     animateParallaxEffects();
   });
 
-  // Single deferred refresh for parallax triggers
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(() => ScrollTrigger.refresh());
-      } else {
-        ScrollTrigger.refresh();
-      }
-    }, 200);
-  });
+  // No ScrollTrigger.refresh() — scrub triggers self-correct on scroll
 }
 
 /* ══════════════════════════════════════════════════════════════
