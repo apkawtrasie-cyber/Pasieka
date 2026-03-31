@@ -53,11 +53,14 @@ export function initAnimations() {
 
   /* Odśwież ScrollTrigger po załadowaniu — idle callback */
   window.addEventListener('load', () => {
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(() => ScrollTrigger.refresh());
-    } else {
-      setTimeout(() => ScrollTrigger.refresh(), 200);
-    }
+    // Timeout gives browser time to paint before forcing reflow
+    setTimeout(() => {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => ScrollTrigger.refresh());
+      } else {
+        ScrollTrigger.refresh();
+      }
+    }, 100);
   });
 }
 

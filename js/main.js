@@ -77,7 +77,6 @@ const App = {
 
   renderContent() {
     try { renderLangSwitcher(); } catch(e) { console.warn('[Pasieka] renderLangSwitcher error:', e); }
-    try { renderNav(); } catch(e) { console.warn('[Pasieka] renderNav error:', e); }
     try { renderHero(); } catch(e) { console.warn('[Pasieka] renderHero error:', e); }
     try { renderAbout(); } catch(e) { console.warn('[Pasieka] renderAbout error:', e); }
     try { renderBenefits(); } catch(e) { console.warn('[Pasieka] renderBenefits error:', e); }
@@ -311,37 +310,8 @@ function applyTranslations() {
   document.querySelectorAll('#mobile-menu nav a').forEach((a, i) => {
     if (navKeys[i]) a.textContent = t(navKeys[i]);
   });
-
   // Update dropdown highlight
   highlightActiveLang();
-}
-
-function renderNav() {
-  const desktopNav = document.getElementById('desktop-nav');
-  const mobileNav = document.querySelector('#mobile-menu nav');
-  const navKeys = ['nav_about', 'nav_products', 'nav_benefits', 'nav_contact'];
-
-  CONFIG.nav.forEach(({ label, href }, i) => {
-    const translatedLabel = t(navKeys[i]) || label;
-
-    // Desktop link
-    const dLink = el('a', {
-      href,
-      className: 'nav-link text-white hover:text-amber-400 font-medium text-sm transition-colors',
-      'aria-label': translatedLabel,
-    }, translatedLabel);
-    desktopNav.appendChild(dLink);
-
-    // Mobile link
-    const mLink = el('a', {
-      href,
-      className: 'text-2xl font-serif font-bold text-white hover:text-amber-400 transition-colors',
-      'aria-label': translatedLabel,
-      dataset: { mobileLink: 'true' },
-    }, translatedLabel);
-    mobileNav.appendChild(mLink);
-  });
-
 }
 
 /* ══════════════════════════════════════════════════════════════

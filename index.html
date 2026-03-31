@@ -58,7 +58,11 @@
   <!-- JSON-LD: Products (wstrzykiwane dynamicznie przez main.js) -->
   <script id="json-ld-products" type="application/ld+json">[]</script>
 
-  <!-- Tailwind CSS (pre-built, 22 KiB vs 124 KiB CDN) -->
+  <!-- Early hints for critical CSS -->
+  <link rel="preload" as="style" href="css/tailwind.min.css" fetchpriority="high">
+  <link rel="preload" as="style" href="css/style.css" fetchpriority="high">
+
+  <!-- Tailwind CSS (pre-built, 22 KiB) -->
   <link rel="stylesheet" href="css/tailwind.min.css">
 
   <!-- Preconnect to CDNs -->
@@ -116,7 +120,10 @@
 
       <!-- Desktop Nav -->
       <nav id="desktop-nav" class="hidden md:flex items-center gap-8" aria-label="Nawigacja główna">
-        <!-- Links generated dynamically by main.js -->
+        <a href="#o-nas" class="nav-link text-white hover:text-amber-700 font-medium text-sm transition-colors" data-i18n="nav_about" aria-label="O nas">O nas</a>
+        <a href="#produkty" class="nav-link text-white hover:text-amber-700 font-medium text-sm transition-colors" data-i18n="nav_products" aria-label="Produkty">Produkty</a>
+        <a href="#korzysci" class="nav-link text-white hover:text-amber-700 font-medium text-sm transition-colors" data-i18n="nav_benefits" aria-label="Korzyści">Korzyści</a>
+        <a href="#kontakt" class="nav-link text-white hover:text-amber-700 font-medium text-sm transition-colors" data-i18n="nav_contact" aria-label="Kontakt">Kontakt</a>
       </nav>
 
       <!-- Language Switcher Dropdown -->
@@ -177,7 +184,10 @@
     </button>
 
     <nav class="flex flex-col items-center justify-center gap-10 h-full pointer-events-none" aria-label="Nawigacja mobilna">
-      <!-- Links generated dynamically by main.js -->
+      <a href="#o-nas" class="text-2xl font-serif text-white hover:text-amber-500 transition-colors" data-i18n="nav_about">O nas</a>
+      <a href="#produkty" class="text-2xl font-serif text-white hover:text-amber-500 transition-colors" data-i18n="nav_products">Produkty</a>
+      <a href="#korzysci" class="text-2xl font-serif text-white hover:text-amber-500 transition-colors" data-i18n="nav_benefits">Korzyści</a>
+      <a href="#kontakt" class="text-2xl font-serif text-white hover:text-amber-500 transition-colors" data-i18n="nav_contact">Kontakt</a>
     </nav>
 
     <!-- Mobile menu: przycisk Zadzwoń -->
