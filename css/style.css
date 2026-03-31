@@ -70,8 +70,6 @@ body {
   background: var(--color-bg-card);
   border: 1px solid rgba(212, 175, 55, 0.1);
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform, opacity;
-  transform: translateZ(0);
   isolation: isolate;
 }
 
@@ -271,21 +269,13 @@ body {
   color: #e5c654 !important;
 }
 
-/* ── Glass panels — GPU acceleration ── */
+/* ── Glass panels ── */
 [class^="glass-"],
 [class*=" glass-"] {
-  will-change: transform, opacity;
-  transform: translateZ(0);
   isolation: isolate;
 }
 
-/* ── GSAP animated elements — GPU layer ── */
-.gsap-fade-up,
-.gsap-fade-in,
-.gsap-scale-in {
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
+/* ── Animated elements ── */
 
 /* ── Hero video — GPU compositing ── */
 .hero-video-bg {
