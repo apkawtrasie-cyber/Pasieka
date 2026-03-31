@@ -171,7 +171,7 @@ function createSVGIcon(iconName) {
 }
 
 /* ══════════════════════════════════════════════════════════════
-   0. LANGUAGE SWITCHER
+   0. LANGUAGE SWITCHER — Dropdown (all breakpoints)
    ══════════════════════════════════════════════════════════════ */
 function renderLangSwitcher() {
   const flags = getFlags();
@@ -179,40 +179,158 @@ function renderLangSwitcher() {
   const langs = getAvailableLangs();
   const current = getLang();
 
-  // Desktop lang switcher (w headerze, obok CTA)
+  // ── Header dropdown (visible on ALL breakpoints) ──
   const headerDiv = document.querySelector('#site-header .max-w-7xl');
-  const desktopSwitcher = el('div', { className: 'hidden md:flex items-center gap-1 ml-4' });
-  langs.forEach(lang => {
-    const btn = el('button', {
-      className: `text-sm px-2 py-1 rounded transition-colors ${lang === current ? 'bg-amber-500/20 text-amber-400 font-bold' : 'text-stone-400 hover:text-amber-400'}`,
-      'aria-label': names[lang],
-      dataset: { lang },
-    }, flags[lang]);
-    desktopSwitcher.appendChild(btn);
-  });
-  headerDiv.insertBefore(desktopSwitcher, document.getElementById('mobile-menu-toggle'));
+  const wrapper = el('div', { className: 'relative ml-3', id: 'lang-dropdown-wrapper' });
 
-  // Mobile lang switcher
+  // Trigger button — shows current flag
+  const trigger = el('button', {
+    className: 'flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-sm transition-colors hover:bg-white/10',
+    id: 'lang-dropdown-trigger',
+    'aria-label': 'Zmień język',
+    'aria-expanded': 'false',
+  });
+  const flagSpan = el('span', { className: 'text-lg', id: 'lang-current-flag' }, flags[current]);
+  const arrowSvg = document.createElement('template');
+  arrowSvg.innerHTML = '<svg class="w-3.5 h-3.5 text-stone-400 transition-transform duration-200" id="lang-arrow" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>';
+  trigger.appendChild(flagSpan);
+  trigger.appendChild(arrowSvg.content.firstChild);
+  wrapper.appendChild(trigger);
+
+  // Dropdown panel
+  const panel = el('div', {
+    className: 'absolute right-0 top-full mt-2 py-2 rounded-xl shadow-2xl border opacity-0 pointer-events-none transition-all duration-200 origin-top-right scale-95 z-50',
+    id: 'lang-dropdown-panel',
+    style: 'min-width: 180px; background: rgba(20,18,15,0.98); border-color: rgba(212,175,55,0.2); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);',
+  });
+
+  langs.forEach(lang => {
+    const isActive = lang === current;
+    const item = el('button', {
+      className: `flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm transition-colors ${isActive ? 'bg-amber-500/10' : 'hover:bg-white/5'}`,
+      dataset: { lang, dropdownItem: 'true' },
+      'aria-label': names[lang],
+    });
+    const itemFlag = el('span', { className: 'text-lg' }, flags[lang]);
+    const itemName = el('span', {
+      className: isActive ? 'font-bold' : 'font-medium',
+      style: `color: ${isActive ? '#d4af37' : '#d1d5db'};`,
+    }, names[lang]);
+    item.appendChild(itemFlag);
+    item.appendChild(itemName);
+    if (isActive) {
+      const checkTpl = document.createElement('template');
+      checkTpl.innerHTML = '<svg class="w-4 h-4 ml-auto" style="color:#d4af37" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>';
+      item.appendChild(checkTpl.content.firstChild);
+    }
+    panel.appendChild(item);
+  });
+
+  wrapper.appendChild(panel);
+  // Insert before the hamburger toggle (or at end for desktop)
+  const hamburgerBtn = document.getElementById('mobile-menu-toggle');
+  headerDiv.insertBefore(wrapper, hamburgerBtn);
+
+  // ── Toggle logic ──
+  let isOpen = false;
+  function openDropdown() {
+    isOpen = true;
+    panel.style.opacity = '1';
+    panel.style.pointerEvents = 'auto';
+    panel.style.transform = 'scale(1)';
+    trigger.setAttribute('aria-expanded', 'true');
+    const arrow = document.getElementById('lang-arrow');
+    if (arrow) arrow.style.transform = 'rotate(180deg)';
+  }
+  function closeDropdown() {
+    isOpen = false;
+    panel.style.opacity = '0';
+    panel.style.pointerEvents = 'none';
+    panel.style.transform = 'scale(0.95)';
+    trigger.setAttribute('aria-expanded', 'false');
+    const arrow = document.getElementById('lang-arrow');
+    if (arrow) arrow.style.transform = 'rotate(0deg)';
+  }
+
+  trigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    isOpen ? closeDropdown() : openDropdown();
+  });
+
+  // Close on outside click
+  document.addEventListener('click', (e) => {
+    if (isOpen && !wrapper.contains(e.target)) closeDropdown();
+  });
+
+  // ── Language selection (dropdown items) ──
+  panel.querySelectorAll('[data-dropdown-item]').forEach(item => {
+    item.addEventListener('click', () => {
+      const lang = item.dataset.lang;
+      if (lang === getLang()) { closeDropdown(); return; }
+      setLang(lang);
+      closeDropdown();
+      updateDropdownUI();
+      applyTranslations();
+    });
+  });
+
+  // ── Mobile menu overlay flags ──
   const mobileSwitcher = document.getElementById('mobile-lang-switcher');
   if (mobileSwitcher) {
     langs.forEach(lang => {
       const btn = el('button', {
         className: `text-xl px-3 py-2 rounded-lg transition-colors ${lang === current ? 'bg-amber-500/20 ring-2 ring-amber-500' : 'opacity-60 hover:opacity-100'}`,
         'aria-label': names[lang],
-        dataset: { lang },
+        dataset: { lang, mobileLangBtn: 'true' },
       }, flags[lang]);
       mobileSwitcher.appendChild(btn);
     });
-  }
 
-  // Event listeners
-  document.querySelectorAll('[data-lang]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const lang = btn.dataset.lang;
-      if (lang === getLang()) return;
-      setLang(lang);
-      applyTranslations();
+    mobileSwitcher.querySelectorAll('[data-mobile-lang-btn]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lang = btn.dataset.lang;
+        if (lang === getLang()) return;
+        setLang(lang);
+        updateDropdownUI();
+        applyTranslations();
+      });
     });
+  }
+}
+
+function updateDropdownUI() {
+  const flags = getFlags();
+  const names = getLangNames();
+  const current = getLang();
+
+  // Update header trigger flag
+  const currentFlag = document.getElementById('lang-current-flag');
+  if (currentFlag) currentFlag.textContent = flags[current];
+
+  // Update dropdown items
+  document.querySelectorAll('[data-dropdown-item]').forEach(item => {
+    const lang = item.dataset.lang;
+    const isActive = lang === current;
+    item.className = `flex items-center gap-3 w-full px-4 py-2.5 text-left text-sm transition-colors ${isActive ? 'bg-amber-500/10' : 'hover:bg-white/5'}`;
+    const nameSpan = item.querySelectorAll('span')[1];
+    if (nameSpan) {
+      nameSpan.className = isActive ? 'font-bold' : 'font-medium';
+      nameSpan.style.color = isActive ? '#d4af37' : '#d1d5db';
+    }
+    // Remove/add check icon
+    const existingCheck = item.querySelector('svg');
+    if (existingCheck) existingCheck.remove();
+    if (isActive) {
+      const checkTpl = document.createElement('template');
+      checkTpl.innerHTML = '<svg class="w-4 h-4 ml-auto" style="color:#d4af37" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>';
+      item.appendChild(checkTpl.content.firstChild);
+    }
+  });
+
+  // Update mobile overlay flags
+  document.querySelectorAll('[data-mobile-lang-btn]').forEach(btn => {
+    const isActive = btn.dataset.lang === current;
+    btn.className = `text-xl px-3 py-2 rounded-lg transition-colors ${isActive ? 'bg-amber-500/20 ring-2 ring-amber-500' : 'opacity-60 hover:opacity-100'}`;
   });
 }
 
@@ -266,15 +384,8 @@ function applyTranslations() {
     if (navKeys[i]) a.textContent = t(navKeys[i]);
   });
 
-  // Update lang switcher active state
-  document.querySelectorAll('[data-lang]').forEach(btn => {
-    const isActive = btn.dataset.lang === getLang();
-    if (btn.closest('#mobile-lang-switcher')) {
-      btn.className = `text-xl px-3 py-2 rounded-lg transition-colors ${isActive ? 'bg-amber-500/20 ring-2 ring-amber-500' : 'opacity-60 hover:opacity-100'}`;
-    } else {
-      btn.className = `text-sm px-2 py-1 rounded transition-colors ${isActive ? 'bg-amber-500/20 text-amber-400 font-bold' : 'text-stone-400 hover:text-amber-400'}`;
-    }
-  });
+  // Update dropdown + mobile overlay UI
+  updateDropdownUI();
 }
 
 function renderNav() {
