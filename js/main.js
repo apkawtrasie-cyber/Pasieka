@@ -74,25 +74,24 @@ const App = {
   },
 
   renderContent() {
-    renderLangSwitcher();
-    renderNav();
-    renderHero();
-    renderAbout();
-    // renderProducts(); // Produkty są teraz statyczne w HTML
-    renderBenefits();
-    renderContact();
-    renderFooter();
-    injectProductSchema();
-    translatePage();
+    try { renderLangSwitcher(); } catch(e) { console.warn('[Pasieka] renderLangSwitcher error:', e); }
+    try { renderNav(); } catch(e) { console.warn('[Pasieka] renderNav error:', e); }
+    try { renderHero(); } catch(e) { console.warn('[Pasieka] renderHero error:', e); }
+    try { renderAbout(); } catch(e) { console.warn('[Pasieka] renderAbout error:', e); }
+    try { renderBenefits(); } catch(e) { console.warn('[Pasieka] renderBenefits error:', e); }
+    try { renderContact(); } catch(e) { console.warn('[Pasieka] renderContact error:', e); }
+    try { renderFooter(); } catch(e) { console.warn('[Pasieka] renderFooter error:', e); }
+    try { injectProductSchema(); } catch(e) { console.warn('[Pasieka] injectProductSchema error:', e); }
+    try { translatePage(); } catch(e) { console.warn('[Pasieka] translatePage error:', e); }
   },
 
   initInteractions() {
-    initMobileMenu();
-    initHeroVideo();
-    deobfuscatePhone();
-    initContactForm();
-    initStickyCTA();
-    initHeaderScroll();
+    try { initMobileMenu(); } catch(e) { console.warn('[Pasieka] initMobileMenu error:', e); }
+    try { initHeroVideo(); } catch(e) { console.warn('[Pasieka] initHeroVideo error:', e); }
+    try { deobfuscatePhone(); } catch(e) { console.warn('[Pasieka] deobfuscatePhone error:', e); }
+    try { initContactForm(); } catch(e) { console.warn('[Pasieka] initContactForm error:', e); }
+    try { initStickyCTA(); } catch(e) { console.warn('[Pasieka] initStickyCTA error:', e); }
+    try { initHeaderScroll(); } catch(e) { console.warn('[Pasieka] initHeaderScroll error:', e); }
   }
 };
 
