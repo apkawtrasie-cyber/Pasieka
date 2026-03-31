@@ -23,9 +23,16 @@ const TRANSLATIONS = {
     hero_cta_secondary: 'Nasza historia',
 
     // About
+    about_eyebrow: 'Nasza historia',
     about_headline: 'Ponad 35 lat pasji do pszczelarstwa',
     about_p1: 'Nasza pasieka powstała w 1987 roku z miłości do natury i pszczół. Od trzech pokoleń dbamy o tradycyjne metody pozyskiwania miodu, które gwarantują najwyższą jakość i pełnię smaku.',
     about_p2: 'Każdy słoik, który opuszcza naszą pasiekę, jest ręcznie napełniany i etykietowany. Nie stosujemy pasteryzacji ani sztucznych dodatków — dostajesz czysty, surowy miód prosto z plastra.',
+
+    about_cert_title: 'Certyfikowana jakość',
+    about_cert_desc: 'Każda partia miodu badana laboratoryjnie',
+
+    // Footer
+    footer_copyright: '© 2026 Pasieka Złoty Nektar. Wszelkie prawa zastrzeżone.',
 
     // Products
     products_eyebrow: 'Sezonowa edycja',
@@ -85,9 +92,15 @@ const TRANSLATIONS = {
     hero_cta_primary: 'Explore collection',
     hero_cta_secondary: 'Our story',
 
+    about_eyebrow: 'Our story',
     about_headline: 'Over 35 years of passion for beekeeping',
     about_p1: 'Our apiary was founded in 1987 out of love for nature and bees. For three generations, we have preserved traditional honey harvesting methods that guarantee the highest quality and full flavour.',
     about_p2: 'Every jar that leaves our apiary is hand-filled and labelled. We never pasteurise or add artificial ingredients — you get pure, raw honey straight from the comb.',
+
+    about_cert_title: 'Certified quality',
+    about_cert_desc: 'Every batch of honey tested in a laboratory',
+
+    footer_copyright: '© 2026 Pasieka Złoty Nektar. All rights reserved.',
 
     products_eyebrow: 'Seasonal edition',
     products_headline: 'Liquid craft from Polish apiaries.',
@@ -141,9 +154,15 @@ const TRANSLATIONS = {
     hero_cta_primary: 'Kollektion entdecken',
     hero_cta_secondary: 'Unsere Geschichte',
 
+    about_eyebrow: 'Unsere Geschichte',
     about_headline: 'Über 35 Jahre Leidenschaft für Imkerei',
     about_p1: 'Unsere Imkerei wurde 1987 aus Liebe zur Natur und zu den Bienen gegründet. Seit drei Generationen bewahren wir traditionelle Methoden der Honiggewinnung, die höchste Qualität und vollen Geschmack garantieren.',
     about_p2: 'Jedes Glas, das unsere Imkerei verlässt, wird von Hand abgefüllt und etikettiert. Wir pasteurisieren nicht und verwenden keine künstlichen Zusätze — Sie erhalten reinen, rohen Honig direkt aus der Wabe.',
+
+    about_cert_title: 'Zertifizierte Qualität',
+    about_cert_desc: 'Jede Charge Honig im Labor getestet',
+
+    footer_copyright: '© 2026 Pasieka Złoty Nektar. Alle Rechte vorbehalten.',
 
     products_eyebrow: 'Saisonale Ausgabe',
     products_headline: 'Flüssiges Handwerk aus polnischen Imkereien.',
@@ -197,9 +216,15 @@ const TRANSLATIONS = {
     hero_cta_primary: 'Scopri la collezione',
     hero_cta_secondary: 'La nostra storia',
 
+    about_eyebrow: 'La nostra storia',
     about_headline: 'Oltre 35 anni di passione per l\'apicoltura',
     about_p1: 'Il nostro apiario è stato fondato nel 1987 per amore della natura e delle api. Da tre generazioni preserviamo i metodi tradizionali di raccolta del miele che garantiscono la massima qualità e pienezza di sapore.',
     about_p2: 'Ogni barattolo che lascia il nostro apiario è riempito e etichettato a mano. Non pastorizziamo né aggiungiamo ingredienti artificiali — ricevi miele puro e crudo direttamente dal favo.',
+
+    about_cert_title: 'Qualità certificata',
+    about_cert_desc: 'Ogni lotto di miele testato in laboratorio',
+
+    footer_copyright: '© 2026 Pasieka Złoty Nektar. Tutti i diritti riservati.',
 
     products_eyebrow: 'Edizione stagionale',
     products_headline: 'Artigianato liquido dagli apiari polacchi.',
@@ -253,9 +278,15 @@ const TRANSLATIONS = {
     hero_cta_primary: 'Découvrir la collection',
     hero_cta_secondary: 'Notre histoire',
 
+    about_eyebrow: 'Notre histoire',
     about_headline: 'Plus de 35 ans de passion pour l\'apiculture',
     about_p1: 'Notre rucher a été fondé en 1987 par amour de la nature et des abeilles. Depuis trois générations, nous préservons les méthodes traditionnelles de récolte du miel qui garantissent la plus haute qualité et la plénitude du goût.',
     about_p2: 'Chaque pot qui quitte notre rucher est rempli et étiqueté à la main. Nous ne pasteurisons pas et n\'ajoutons aucun ingrédient artificiel — vous recevez du miel pur et cru directement du rayon.',
+
+    about_cert_title: 'Qualité certifiée',
+    about_cert_desc: 'Chaque lot de miel testé en laboratoire',
+
+    footer_copyright: '© 2026 Pasieka Złoty Nektar. Tous droits réservés.',
 
     products_eyebrow: 'Édition saisonnière',
     products_headline: 'Artisanat liquide des ruchers polonais.',

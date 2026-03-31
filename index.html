@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- SEO Meta -->
+  <meta name="robots" content="noindex, nofollow">
   <title>Pasieka Złoty Nektar — 100% Surowy Miód z Kazimierza Dolnego</title>
   <meta name="description" content="Rodzinna pasieka z tradycjami od 1987 roku. Miód lipowy, wielokwiatowy, spadziowy, pyłek pszczeli i pierzga — prosto od pszczelarza. Zamów telefonicznie!">
   <meta name="keywords" content="miód naturalny, surowy miód, pasieka Kazimierz Dolny, miód lipowy, pyłek pszczeli, pierzga, propolis, miód niepasteryzowany">
@@ -307,7 +308,7 @@
 
         <!-- Text -->
         <div class="order-1 lg:order-2 flex flex-col gap-6">
-          <span class="gsap-fade-up inline-block self-start px-4 py-1.5 rounded-full font-semibold text-sm" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">
+          <span class="gsap-fade-up inline-block self-start px-4 py-1.5 rounded-full font-semibold text-sm" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;" data-i18n="about_eyebrow">
             Nasza historia
           </span>
 
@@ -326,8 +327,8 @@
               </svg>
             </div>
             <div>
-              <p class="font-semibold" style="color: #ffffff;">Certyfikowana jakość</p>
-              <p class="text-sm" style="color: #a3a3a3;">Każda partia miodu badana laboratoryjnie</p>
+              <p class="font-semibold" style="color: #ffffff;" data-i18n="about_cert_title">Certyfikowana jakość</p>
+              <p class="text-sm" style="color: #a3a3a3;" data-i18n="about_cert_desc">Każda partia miodu badana laboratoryjnie</p>
             </div>
           </div>
         </div>
@@ -568,11 +569,14 @@
           <span id="footer-business-name" class="text-white font-serif font-semibold"></span>
         </div>
 
-        <p id="footer-copyright" class="text-sm text-center"></p>
+        <p id="footer-copyright" class="text-sm text-center" data-i18n="footer_copyright"></p>
 
         <div id="footer-social" class="flex gap-4">
           <!-- Wstrzykiwane przez main.js -->
         </div>
+      </div>
+      <div class="mt-6 text-center text-xs text-stone-500">
+        Zaprojektował <a href="https://andrzejmich.ch" target="_blank" rel="noopener noreferrer" class="text-stone-400 hover:text-amber-500 transition-colors underline">Andrzej Mich</a>
       </div>
     </div>
   </footer>
@@ -594,6 +598,6 @@
   <!-- ════════════════════════════════════════════════════════
        JS MODULES
        ════════════════════════════════════════════════════════ -->
-  <script type="module" src="js/main.js?v=4"></script>
+  <script type="module" src="js/main.js?v=5"></script>
 </body>
 </html>
