@@ -35,13 +35,18 @@ export function initAnimations() {
     force3D: true,
   });
 
-  /* Inicjalizacja animacji — batch layout reads w jednej klatce */
+  /* Layout reads BEFORE rAF to prevent forced reflow */
+  const produktySection = document.querySelector('#produkty');
+  const produktyRect = produktySection ? produktySection.getBoundingClientRect() : null;
+  const viewportH = window.innerHeight;
+
+  /* Animacje — writes only inside rAF */
   requestAnimationFrame(() => {
     createHoneyDrops();
     animateHoneyParallax();
     animateHeroSection();
     animateFadeUpElements();
-    animateProductCards();
+    animateProductCards(produktyRect, viewportH);
     animateScaleInElements();
     animateMobileExtras();
   });
@@ -185,14 +190,12 @@ function animateFadeUpElements() {
 /* ══════════════════════════════════════════════════════════════
    5. PRODUCT CARDS — STAGGERED INTRO + PARALLAX
    ══════════════════════════════════════════════════════════════ */
-function animateProductCards() {
+function animateProductCards(precomputedRect, viewportH) {
   const cards = document.querySelectorAll('#produkty .product-card');
   if (!cards.length) return;
 
-  // Karty domyślnie widoczne — GSAP animuje tylko jeśli sekcja poniżej viewportu
-  const section = document.querySelector('#produkty');
-  const rect = section.getBoundingClientRect();
-  const isBelowViewport = rect.top > window.innerHeight * 0.5;
+  // Use precomputed rect to avoid forced reflow inside rAF
+  const isBelowViewport = precomputedRect ? precomputedRect.top > viewportH * 0.5 : false;
 
   if (isBelowViewport) {
     // Rząd 1 — wjazd z góry

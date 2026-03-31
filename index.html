@@ -58,34 +58,8 @@
   <!-- JSON-LD: Products (wstrzykiwane dynamicznie przez main.js) -->
   <script id="json-ld-products" type="application/ld+json">[]</script>
 
-  <!-- Tailwind CDN (Play Mode) -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'system-ui', 'sans-serif'],
-            serif: ['Playfair Display', 'Georgia', 'serif'],
-          },
-          colors: {
-            honey: {
-              50:  '#fffbeb',
-              100: '#fef3c7',
-              200: '#fde68a',
-              300: '#fcd34d',
-              400: '#fbbf24',
-              500: '#f59e0b',
-              600: '#d97706',
-              700: '#b45309',
-              800: '#92400e',
-              900: '#78350f',
-            },
-          },
-        },
-      },
-    };
-  </script>
+  <!-- Tailwind CSS (pre-built, 22 KiB vs 124 KiB CDN) -->
+  <link rel="stylesheet" href="css/tailwind.min.css">
 
   <!-- Preconnect to CDNs -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -93,10 +67,9 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="dns-prefetch" href="https://unpkg.com">
 
-  <!-- Google Fonts: async load (non-render-blocking) -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet"></noscript>
+  <!-- Google Fonts: render-blocking but preloaded (1.6 KiB CSS — prevents CLS from font swap) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=optional" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=optional" rel="stylesheet">
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="css/style.css">
@@ -249,18 +222,18 @@
       <!-- Content (Right Column on Desktop) -->
       <div class="hero-content max-w-2xl">
         <!-- Eyebrow -->
-        <p id="hero-eyebrow" class="gsap-fade-up text-sm font-semibold tracking-widest uppercase mb-6" style="color: #f59e0b; letter-spacing: 0.15em;">
-          <!-- Wstrzykiwany z CONFIG przez main.js -->
+        <p id="hero-eyebrow" class="gsap-fade-up text-sm font-semibold tracking-widest uppercase mb-6" style="color: #f59e0b; letter-spacing: 0.15em;" data-i18n="hero_eyebrow">
+          Od 1987 roku — tradycja i jakość
         </p>
 
         <!-- Headline (H1) -->
-        <h1 id="hero-headline" class="gsap-fade-up font-serif font-bold text-5xl md:text-6xl lg:text-7xl leading-tight mb-6" style="color: #ffffff; text-wrap: balance;">
-          <!-- Wstrzykiwany z CONFIG przez main.js -->
+        <h1 id="hero-headline" class="gsap-fade-up font-serif font-bold text-5xl md:text-6xl lg:text-7xl leading-tight mb-6" style="color: #ffffff; text-wrap: balance;" data-i18n="hero_headline">
+          Przestań kupować cukier w słoiku
         </h1>
 
         <!-- Subheadline -->
-        <p id="hero-subheadline" class="gsap-fade-up text-lg md:text-xl leading-relaxed mb-10" style="color: #d1d5db; text-wrap: balance;">
-          <!-- Wstrzykiwany z CONFIG przez main.js -->
+        <p id="hero-subheadline" class="gsap-fade-up text-lg md:text-xl leading-relaxed mb-10" style="color: #d1d5db; text-wrap: balance;" data-i18n="hero_sub">
+          Prawdziwy miód to nie tylko słodycz. To płynna architektura natury, zamknięta w szkle przez rzemieślników, którzy szanują każdą kroplę.
         </p>
 
         <!-- CTAs -->
@@ -268,15 +241,16 @@
           <a id="hero-cta-primary" 
              href="#produkty"
              class="btn-gold flex items-center justify-center gap-2 px-6 py-3 text-base font-bold uppercase tracking-wide"
-             aria-label="Odkryj kolekcję miodów">
-            <!-- Text wstrzykiwany z CONFIG -->
+             aria-label="Odkryj kolekcję miodów"
+             data-i18n="hero_cta_primary">
+            Odkryj kolekcję
           </a>
           <a id="hero-cta-secondary" 
              href="#o-nas"
              class="flex items-center justify-center gap-2 px-6 py-3 text-base font-semibold transition-all duration-300 hover:gap-3"
              style="color: #f59e0b;"
              aria-label="Poznaj naszą historię">
-            <!-- Text wstrzykiwany z CONFIG -->
+            <span data-i18n="hero_cta_secondary">Nasza historia</span>
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
             </svg>

@@ -401,28 +401,9 @@ function initMobileMenu() {
    2. HERO — Dynamiczne wstrzykiwanie treści (Amber & Earth)
    ══════════════════════════════════════════════════════════════ */
 function renderHero() {
-  setText('hero-eyebrow', t('hero_eyebrow'));
-  setText('hero-headline', t('hero_headline'));
-  setText('hero-subheadline', t('hero_sub'));
-  
-  const ctaPrimary = document.getElementById('hero-cta-primary');
-  const ctaSecondary = document.getElementById('hero-cta-secondary');
-  
-  if (ctaPrimary) {
-    ctaPrimary.textContent = t('hero_cta_primary');
-  }
-  
-  if (ctaSecondary) {
-    ctaSecondary.childNodes.forEach(node => {
-      if (node.nodeType === Node.TEXT_NODE || node.nodeType === Node.COMMENT_NODE) {
-        node.remove();
-      }
-    });
-    ctaSecondary.insertBefore(
-      document.createTextNode(t('hero_cta_secondary')),
-      ctaSecondary.firstChild
-    );
-  }
+  // Hero text is now in HTML with data-i18n attributes.
+  // translatePage() handles language switching automatically.
+  // No manual setText calls needed — eliminates CLS.
 }
 
 /* ══════════════════════════════════════════════════════════════

@@ -1,0 +1,25 @@
+{
+  "name": "honing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build:css": "npx tailwindcss -i css/tailwind-input.css -o css/tailwind.min.css --minify",
+    "watch:css": "npx tailwindcss -i css/tailwind-input.css -o css/tailwind.min.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apkawtrasie-cyber/Pasieka.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/apkawtrasie-cyber/Pasieka/issues"
+  },
+  "homepage": "https://github.com/apkawtrasie-cyber/Pasieka#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}
