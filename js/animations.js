@@ -55,8 +55,14 @@ function initGlassPanels() {
 
   panels.forEach((panel) => {
     const isLeft = panel.classList.contains('glass-gryczany') || panel.classList.contains('glass-spadziowy');
+    const isCenter = panel.classList.contains('glass-nawlociowy');
+    
     panel.style.opacity = '0';
-    panel.style.transform = `translateX(${isLeft ? -20 : 20}px)`;
+    if (isCenter) {
+      panel.style.transform = 'translate(-50%, 20px)'; // Preserve -translate-x-1/2 centering
+    } else {
+      panel.style.transform = `translateX(${isLeft ? -20 : 20}px)`;
+    }
     panel.style.transition = 'opacity .6s ease, transform .6s ease';
   });
 
@@ -68,7 +74,8 @@ function initGlassPanels() {
         idx++;
         setTimeout(() => {
           entry.target.style.opacity = '1';
-          entry.target.style.transform = 'none';
+          const isCenter = entry.target.classList.contains('glass-nawlociowy');
+          entry.target.style.transform = isCenter ? 'translate(-50%, 0)' : 'none';
         }, d);
         observer.unobserve(entry.target);
       }

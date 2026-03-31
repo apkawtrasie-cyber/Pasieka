@@ -280,17 +280,6 @@ function applyTranslations() {
   setText('hero-headline', t('hero_headline'));
   setText('hero-subheadline', t('hero_sub'));
 
-  const ctaPrimary = document.getElementById('hero-cta-primary');
-  if (ctaPrimary) ctaPrimary.textContent = t('hero_cta_primary');
-
-  const ctaSecondary = document.getElementById('hero-cta-secondary');
-  if (ctaSecondary) {
-    ctaSecondary.childNodes.forEach(node => {
-      if (node.nodeType === Node.TEXT_NODE) node.remove();
-    });
-    ctaSecondary.insertBefore(document.createTextNode(t('hero_cta_secondary')), ctaSecondary.firstChild);
-  }
-
   setText('about-headline', t('about_headline'));
   const aboutP = document.querySelectorAll('#about-paragraphs p');
   if (aboutP[0]) aboutP[0].textContent = t('about_p1');
