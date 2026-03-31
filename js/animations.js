@@ -107,19 +107,19 @@ function animateHoneyParallax() {
     ease: 'power2.inOut',
   });
 
-  /* Każda kropla porusza się z inną prędkością (parallax) — TYLKO scrub, zero repeat */
+  /* Każda kropla porusza się z inną prędkością (parallax) — 1 timeline, 1 trigger */
   const speeds = [40, -60, 30, -50, 70, -35];
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '#hero',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: true,
+    },
+  });
 
   drops.forEach((drop, index) => {
-    gsap.to(drop, {
-      y: speeds[index % speeds.length],
-      scrollTrigger: {
-        trigger: '#hero',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true,
-      },
-    });
+    tl.to(drop, { y: speeds[index % speeds.length], duration: 1 }, 0);
   });
 }
 
@@ -174,19 +174,17 @@ function animateFadeUpElements() {
   const elements = document.querySelectorAll(
     '#o-nas .gsap-fade-up, #korzysci .gsap-fade-up, #kontakt .gsap-fade-up, #produkty > div > .gsap-fade-up'
   );
+  if (!elements.length) return;
 
-  elements.forEach((el) => {
-    gsap.from(el, {
-      opacity: 0,
-      y: 40,
-      duration: 0.8,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: el,
-        start: 'top 85%',
-        toggleActions: 'play none none reverse',
-      },
-    });
+  gsap.set(elements, { opacity: 0, y: 40 });
+  ScrollTrigger.batch(elements, {
+    start: 'top 85%',
+    onEnter: (batch) => {
+      gsap.to(batch, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', stagger: 0.1, overwrite: true });
+    },
+    onLeaveBack: (batch) => {
+      gsap.to(batch, { opacity: 0, y: 40, duration: 0.5, ease: 'power2.in', stagger: 0.05, overwrite: true });
+    },
   });
 }
 
@@ -268,19 +266,17 @@ function animateScaleInElements() {
   const elements = document.querySelectorAll(
     '#o-nas .gsap-scale-in'
   );
+  if (!elements.length) return;
 
-  elements.forEach((el) => {
-    gsap.from(el, {
-      opacity: 0,
-      scale: 0.92,
-      duration: 1,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: el,
-        start: 'top 85%',
-        toggleActions: 'play none none reverse',
-      },
-    });
+  gsap.set(elements, { opacity: 0, scale: 0.92 });
+  ScrollTrigger.batch(elements, {
+    start: 'top 85%',
+    onEnter: (batch) => {
+      gsap.to(batch, { opacity: 1, scale: 1, duration: 1, ease: 'power2.out', stagger: 0.1, overwrite: true });
+    },
+    onLeaveBack: (batch) => {
+      gsap.to(batch, { opacity: 0, scale: 0.92, duration: 0.5, ease: 'power2.in', stagger: 0.05, overwrite: true });
+    },
   });
 }
 
@@ -293,18 +289,19 @@ function animateMobileExtras() {
     '.glass-lipowy, .glass-gryczany, .glass-akacjowy, .glass-spadziowy, .glass-nawlociowy'
   );
 
-  glassPanels.forEach((panel) => {
-    const isLeft = panel.classList.contains('glass-gryczany') || panel.classList.contains('glass-spadziowy');
-    gsap.set(panel, { x: isLeft ? -40 : 40, opacity: 0 });
-    gsap.to(panel, {
-      x: 0, opacity: 1, duration: 0.8, ease: 'power3.out',
-      scrollTrigger: {
-        trigger: panel,
-        start: 'top 90%',
-        once: true,
+  if (glassPanels.length) {
+    glassPanels.forEach((panel) => {
+      const isLeft = panel.classList.contains('glass-gryczany') || panel.classList.contains('glass-spadziowy');
+      gsap.set(panel, { x: isLeft ? -40 : 40, opacity: 0 });
+    });
+    ScrollTrigger.batch(glassPanels, {
+      start: 'top 90%',
+      once: true,
+      onEnter: (batch) => {
+        gsap.to(batch, { x: 0, opacity: 1, duration: 0.8, ease: 'power3.out', stagger: 0.1, overwrite: true });
       },
     });
-  });
+  }
 
   // O nas — headline slide + paragraphs stagger
   const aboutHeadline = document.getElementById('about-headline');
@@ -358,13 +355,16 @@ function animateMobileExtras() {
 
   // Benefits cards — staggered entrance
   const benefitCards = document.querySelectorAll('#benefits-grid > div');
-  benefitCards.forEach((card, i) => {
-    gsap.set(card, { y: 30, opacity: 0 });
-    gsap.to(card, {
-      y: 0, opacity: 1, duration: 0.7, delay: i * 0.1, ease: 'power2.out',
-      scrollTrigger: { trigger: card, start: 'top 88%', once: true },
+  if (benefitCards.length) {
+    gsap.set(benefitCards, { y: 30, opacity: 0 });
+    ScrollTrigger.batch(benefitCards, {
+      start: 'top 88%',
+      once: true,
+      onEnter: (batch) => {
+        gsap.to(batch, { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out', stagger: 0.1, overwrite: true });
+      },
     });
-  });
+  }
 }
 
 /* ══════════════════════════════════════════════════════════════
