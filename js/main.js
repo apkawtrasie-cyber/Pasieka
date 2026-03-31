@@ -8,28 +8,30 @@
  * ============================================================
  */
 
-import { CONFIG } from './config.js?v=7';
-import { initAnimations } from './animations.js?v=7';
-import { t, getLang, setLang, getFlags, getLangNames, getAvailableLangs, translatePage } from './i18n.js?v=7';
+import { CONFIG } from './config.js?v=8';
+import { initAnimations } from './animations.js?v=8';
+import { t, getLang, setLang, getFlags, getLangNames, getAvailableLangs, translatePage } from './i18n.js?v=8';
 
 /* ── App Object ── */
 const App = {
   lenis: null,
 
   init() {
-    this.initSmoothScroll();
     this.renderContent();
     this.initInteractions();
-    
-    // Inicjalizacja animacji po załadowaniu GSAP
-    if (window.gsap && window.ScrollTrigger) {
-      initAnimations();
+
+    // Lenis + GSAP mogą nie być gotowe (defer) — retry on load
+    const bootDeferred = () => {
+      this.initSmoothScroll();
+      if (window.gsap && window.ScrollTrigger) {
+        initAnimations();
+      }
+    };
+
+    if (typeof Lenis !== 'undefined' && window.gsap && window.ScrollTrigger) {
+      bootDeferred();
     } else {
-      window.addEventListener('load', () => {
-        if (window.gsap && window.ScrollTrigger) {
-          initAnimations();
-        }
-      });
+      window.addEventListener('load', bootDeferred);
     }
   },
 

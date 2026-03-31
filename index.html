@@ -87,20 +87,30 @@
     };
   </script>
 
-  <!-- Google Fonts: preconnect + load -->
+  <!-- Preconnect to CDNs -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://unpkg.com">
+
+  <!-- Google Fonts: async load (non-render-blocking) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet"></noscript>
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="css/style.css">
 
   <!-- LCP Optimization: Preload critical resources -->
   <link rel="preload" as="image" href="public/images/hero-poster.webp" fetchpriority="high">
-  <link rel="preload" as="video" href="public/images/wideo.miod.mp4" type="video/mp4">
 
-  <!-- Lenis Smooth Scroll -->
-  <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+  <!-- Modulepreload: break JS waterfall chain -->
+  <link rel="modulepreload" href="js/config.js?v=8">
+  <link rel="modulepreload" href="js/animations.js?v=8">
+  <link rel="modulepreload" href="js/i18n.js?v=8">
+
+  <!-- Lenis Smooth Scroll (deferred) -->
+  <script defer src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
   <style>
     html.lenis, html.lenis body { height: auto; }
     .lenis.lenis-smooth { scroll-behavior: auto !important; }
@@ -598,6 +608,6 @@
   <!-- ════════════════════════════════════════════════════════
        JS MODULES
        ════════════════════════════════════════════════════════ -->
-  <script type="module" src="js/main.js?v=7"></script>
+  <script type="module" src="js/main.js?v=8"></script>
 </body>
 </html>

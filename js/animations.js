@@ -35,18 +35,24 @@ export function initAnimations() {
     force3D: true,
   });
 
-  /* Inicjalizacja animacji */
-  createHoneyDrops();
-  animateHoneyParallax();
-  animateHeroSection();
-  animateFadeUpElements();
-  animateProductCards();
-  animateScaleInElements();
-  animateMobileExtras();
+  /* Inicjalizacja animacji — batch layout reads w jednej klatce */
+  requestAnimationFrame(() => {
+    createHoneyDrops();
+    animateHoneyParallax();
+    animateHeroSection();
+    animateFadeUpElements();
+    animateProductCards();
+    animateScaleInElements();
+    animateMobileExtras();
+  });
 
-  /* Odśwież ScrollTrigger po załadowaniu */
+  /* Odśwież ScrollTrigger po załadowaniu — idle callback */
   window.addEventListener('load', () => {
-    ScrollTrigger.refresh();
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => ScrollTrigger.refresh());
+    } else {
+      setTimeout(() => ScrollTrigger.refresh(), 200);
+    }
   });
 }
 
