@@ -71,9 +71,14 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="dns-prefetch" href="https://unpkg.com">
 
-  <!-- Google Fonts: render-blocking but preloaded (1.6 KiB CSS — prevents CLS from font swap) -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=optional" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=optional" rel="stylesheet">
+  <!-- Google Fonts: non-render-blocking -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap">
+  </noscript>
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="css/style.css">
@@ -289,7 +294,7 @@
           <!-- Orange shadow (bottom) -->
           <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 w-3/4 h-8 rounded-full blur-2xl opacity-40" style="background: rgba(245, 158, 11, 0.6);" aria-hidden="true"></div>
           <img
-            src="public/images/pszczelarz.jpg"
+            src="public/images/pszczelarz.webp"
             alt="Pszczelarz przy ulach w pasiece rodzinnej"
             width="600"
             height="450"
@@ -383,7 +388,7 @@
             </div>
 
             <div class="w-full h-full rounded-2xl overflow-hidden relative shadow-xl">
-              <img src="public/images/wielokwiatowy.jpg" alt="Miód Gryczany" loading="lazy" decoding="async"
+              <img src="public/images/wielokwiatowy.webp" alt="Miód Wielokwiatowy" loading="lazy" decoding="async"
                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
               <div class="absolute inset-0" style="background: linear-gradient(to bottom, transparent 55%, #14120f 100%);"></div>
             </div>
@@ -410,7 +415,7 @@
             </div>
 
             <div class="w-full h-full rounded-2xl overflow-hidden relative shadow-lg">
-              <img src="public/images/lipowy.miod.jpg" alt="Miód Akacjowy" loading="lazy" decoding="async"
+              <img src="public/images/lipowy.miod.webp" alt="Miód Lipowy" loading="lazy" decoding="async"
                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
               <div class="absolute inset-0" style="background: linear-gradient(to bottom, transparent 55%, #14120f 100%);"></div>
             </div>
@@ -433,7 +438,7 @@
             </div>
 
             <div class="w-full h-full rounded-2xl overflow-hidden relative shadow-lg">
-              <img src="public/images/spadziowy.miod.jpg" alt="Miód Spadziowy" loading="lazy" decoding="async"
+              <img src="public/images/spadziowy.miod.webp" alt="Miód Spadziowy" loading="lazy" decoding="async"
                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
               <div class="absolute inset-0" style="background: linear-gradient(to bottom, transparent 55%, #14120f 100%);"></div>
             </div>
@@ -443,7 +448,7 @@
         <!-- ── Rząd 3: Nawłociowy — panorama ── -->
         <article class="product-card card-nawlociowy group relative mt-16 md:mt-20 w-full rounded-2xl overflow-hidden shadow-2xl" data-parallax-speed="0"
                  style="aspect-ratio: 21/9;">
-          <img src="public/images/miod.baner.jpg" alt="Miód Nawłociowy" loading="lazy" decoding="async"
+          <img src="public/images/miod.baner.webp" alt="Miód Nawłociowy" loading="lazy" decoding="async"
                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
           <div class="absolute inset-0 bg-gradient-to-t from-[#14120f] via-[#14120f]/30 to-transparent"></div>
           <div class="glass-nawlociowy absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 rounded-2xl px-6 sm:px-10 py-5 sm:py-7 text-center w-[85%] sm:w-auto"
@@ -520,36 +525,34 @@
             </a>
 
             <!-- Social -->
-            <div id="contact-social" class="gsap-fade-up flex gap-4">
-              <!-- Wstrzykiwane dynamicznie -->
-            </div>
-          </div>
-
-          <!-- Mapa Google Maps -->
           <div class="gsap-fade-up">
-            <a href="https://www.google.com/maps/search/?api=1&query=51.3189,21.9526" target="_blank" rel="noopener noreferrer"
-               class="block rounded-2xl overflow-hidden border border-amber-100 shadow-lg hover:shadow-xl transition-shadow duration-300"
-               aria-label="Otwórz lokalizację pasieki w Google Maps">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2520.5!2d21.9526!3d51.3189!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTHCsDE5JzA4LjAiTiAyMcKwNTcnMDkuNCJF!5e0!3m2!1spl!2spl!4v1"
-                width="100%" height="350" style="border:0; pointer-events: none;" allowfullscreen="" loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-                title="Lokalizacja Pasieki Złoty Nektar — ul. Lipowa 12, Kazimierz Dolny">
-              </iframe>
-              <div class="bg-amber-50 px-6 py-4 flex items-center gap-3">
-                <svg class="w-5 h-5 text-amber-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <div id="map-container"
+               class="block rounded-2xl overflow-hidden border border-amber-100 shadow-lg hover:shadow-xl transition-shadow duration-300 relative cursor-pointer group"
+               style="height: 350px; background: #2a2a2a;"
+               aria-label="Kliknij, aby załadować mapę Google Maps">
+              
+              <!-- Placeholder Background (zastępuje wywołanie mapy przed interakcją) -->
+              <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 bg-stone-900 transition-opacity duration-300 group-hover:bg-stone-800">
+                <svg class="w-12 h-12 text-amber-500 mb-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/>
                   <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/>
                 </svg>
-                <span class="text-amber-500 font-semibold text-sm" data-i18n="contact_map_text">ul. Lipowa 12, 24-120 Kazimierz Dolny — kliknij, aby otworzyć w Google Maps</span>
+                <h3 class="text-white font-serif font-bold text-xl mb-2">Lokalizacja Pasieki</h3>
+                <p class="text-stone-400 text-sm max-w-xs" data-i18n="contact_map_text">ul. Lipowa 12, 24-120 Kazimierz Dolny — kliknij, aby załadować mapę</p>
+                <button class="mt-6 px-6 py-2 rounded-full bg-amber-500 text-black font-bold text-sm hover:bg-amber-400 transition-colors">
+                  Załaduj Mapę
+                </button>
               </div>
-            </a>
+
+              <!-- Iframe zostanie wstrzyknięte tutaj przez JS po kliknięciu -->
+            </div>
           </div>
         </div>
       </div>
     </section>
   </main>
 
+  <!-- ... -->
   <!-- ════════════════════════════════════════════════════════
        FOOTER
        ════════════════════════════════════════════════════════ -->

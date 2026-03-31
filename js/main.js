@@ -93,6 +93,7 @@ const App = {
     try { initContactForm(); } catch(e) { console.warn('[Pasieka] initContactForm error:', e); }
     try { initStickyCTA(); } catch(e) { console.warn('[Pasieka] initStickyCTA error:', e); }
     try { initHeaderScroll(); } catch(e) { console.warn('[Pasieka] initHeaderScroll error:', e); }
+    try { initMapFacade(); } catch(e) { console.warn('[Pasieka] initMapFacade error:', e); }
   }
 };
 
@@ -709,6 +710,33 @@ function initHeaderScroll() {
     }
     lastY = y;
   }, { passive: true });
+}
+
+/* ══════════════════════════════════════════════════════════════
+   12. GOOGLE MAPS FACADE
+   ══════════════════════════════════════════════════════════════ */
+function initMapFacade() {
+  const container = document.getElementById('map-container');
+  if (!container) return;
+
+  container.addEventListener('click', function loadMap() {
+    container.removeEventListener('click', loadMap);
+
+    const iframe = document.createElement('iframe');
+    iframe.src = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2520.5!2d21.9526!3d51.3189!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTHCsDE5JzA4LjAiTiAyMcKwNTcnMDkuNCJF!5e0!3m2!1spl!2spl!4v1';
+    iframe.width = '100%';
+    iframe.height = '100%';
+    iframe.style.border = '0';
+    iframe.style.position = 'absolute';
+    iframe.style.inset = '0';
+    iframe.style.zIndex = '10';
+    iframe.allowFullscreen = true;
+    iframe.loading = 'lazy';
+    iframe.referrerPolicy = 'no-referrer-when-downgrade';
+    iframe.title = 'Lokalizacja Pasieki Złoty Nektar';
+
+    container.appendChild(iframe);
+  });
 }
 
 /* ══════════════════════════════════════════════════════════════
