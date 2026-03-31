@@ -1,71 +1,211 @@
 /**
  * ============================================================
- * PASIEKA — Animations Module (Lenis + GSAP Optimized)
+ * PASIEKA — Animations Module
  * ============================================================
- * - Zoptymalizowane dla Lenis smooth scroll
- * - will-change dla GPU acceleration
- * - scrub: true dla płynnego parallax
- * - Brak clearProps dla lepszej wydajności
+ * - IntersectionObserver for visibility (zero forced reflow)
+ * - GSAP ScrollTrigger ONLY for parallax (scrub)
+ * - Hero intro: GSAP stagger (no ScrollTrigger)
  * ============================================================
  */
 
+/* ══════════════════════════════════════════════════════════════
+   INTERSECTION OBSERVER — replaces ScrollTrigger for visibility
+   ══════════════════════════════════════════════════════════════ */
+function initVisibilityObserver() {
+  const elements = document.querySelectorAll(
+    '.gsap-fade-up, .gsap-fade-in, .gsap-scale-in'
+  );
+  if (!elements.length) return;
+
+  let staggerIndex = 0;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        // Skip hero elements — GSAP handles those
+        if (el.closest('#hero')) return;
+        // Stagger delay for grouped reveals
+        const delay = (staggerIndex % 4) * 80;
+        staggerIndex++;
+        setTimeout(() => el.classList.add('is-visible'), delay);
+        observer.unobserve(el);
+      }
+    });
+  }, {
+    threshold: 0.08,
+    rootMargin: '0px 0px -12% 0px',
+  });
+
+  elements.forEach((el) => {
+    // Skip hero — GSAP controls hero animations
+    if (!el.closest('#hero')) {
+      observer.observe(el);
+    }
+  });
+}
+
+/* ══════════════════════════════════════════════════════════════
+   GLASS PANELS — IntersectionObserver slide-in
+   ══════════════════════════════════════════════════════════════ */
+function initGlassPanels() {
+  const panels = document.querySelectorAll(
+    '.glass-lipowy, .glass-gryczany, .glass-akacjowy, .glass-spadziowy, .glass-nawlociowy'
+  );
+  if (!panels.length) return;
+
+  panels.forEach((panel) => {
+    const isLeft = panel.classList.contains('glass-gryczany') || panel.classList.contains('glass-spadziowy');
+    panel.style.opacity = '0';
+    panel.style.transform = `translateX(${isLeft ? -40 : 40}px)`;
+    panel.style.transition = 'opacity .8s cubic-bezier(.4,0,.2,1), transform .8s cubic-bezier(.4,0,.2,1)';
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'none';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
+
+  panels.forEach((p) => observer.observe(p));
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PRODUCT CARDS — IntersectionObserver entrance
+   ══════════════════════════════════════════════════════════════ */
+function initProductCardReveal() {
+  const cards = document.querySelectorAll('#produkty .product-card');
+  if (!cards.length) return;
+
+  cards.forEach((card) => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(50px)';
+    card.style.transition = 'opacity .8s ease, transform .8s ease';
+  });
+
+  let idx = 0;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const delay = (idx % 3) * 120;
+        idx++;
+        setTimeout(() => {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'none';
+        }, delay);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -10% 0px' });
+
+  cards.forEach((c) => observer.observe(c));
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ABOUT SECTION — IntersectionObserver
+   ══════════════════════════════════════════════════════════════ */
+function initAboutAnimations() {
+  const headline = document.getElementById('about-headline');
+  const paragraphs = document.querySelectorAll('#about-paragraphs p');
+
+  if (headline) {
+    headline.style.opacity = '0';
+    headline.style.transform = 'translateY(30px)';
+    headline.style.transition = 'opacity 1s ease, transform 1s ease';
+  }
+
+  paragraphs.forEach((p, i) => {
+    p.style.opacity = '0';
+    p.style.transform = 'translateY(25px)';
+    p.style.transition = `opacity .8s ease ${i * 0.15}s, transform .8s ease ${i * 0.15}s`;
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'none';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -12% 0px' });
+
+  if (headline) observer.observe(headline);
+  paragraphs.forEach((p) => observer.observe(p));
+}
+
+/* ══════════════════════════════════════════════════════════════
+   BENEFIT CARDS — IntersectionObserver
+   ══════════════════════════════════════════════════════════════ */
+function initBenefitCards() {
+  const cards = document.querySelectorAll('#benefits-grid > div');
+  if (!cards.length) return;
+
+  cards.forEach((card, i) => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(30px)';
+    card.style.transition = `opacity .7s ease ${i * 0.08}s, transform .7s ease ${i * 0.08}s`;
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'none';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -8% 0px' });
+
+  cards.forEach((c) => observer.observe(c));
+}
+
+/* ══════════════════════════════════════════════════════════════
+   MAIN EXPORT — init all animations
+   ══════════════════════════════════════════════════════════════ */
 export function initAnimations() {
+  // IntersectionObserver animations — work WITHOUT GSAP, zero reflow
+  initVisibilityObserver();
+  initGlassPanels();
+  initProductCardReveal();
+  initAboutAnimations();
+  initBenefitCards();
+
+  // GSAP-dependent: parallax + hero intro only
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-    console.warn('[Pasieka] GSAP lub ScrollTrigger nie załadowany. Animacje wyłączone.');
+    console.warn('[Pasieka] GSAP/ScrollTrigger nie załadowany.');
     revealAllElements();
     return;
   }
 
   gsap.registerPlugin(ScrollTrigger);
+  gsap.config({ force3D: true });
+  ScrollTrigger.config({ limitCallbacks: true, ignoreMobileResize: true });
 
-  /* Konfiguracja wydajności */
-  gsap.config({
-    force3D: true,
-  });
-
-  ScrollTrigger.config({
-    limitCallbacks: true,
-    ignoreMobileResize: true,
-  });
-
-  /* Ustawienia domyślne */
-  gsap.defaults({
-    ease: 'power2.out',
-    duration: 0.8,
-    force3D: true,
-  });
-
-  /* Layout reads BEFORE rAF to prevent forced reflow */
-  const produktySection = document.querySelector('#produkty');
-  const produktyRect = produktySection ? produktySection.getBoundingClientRect() : null;
-  const viewportH = window.innerHeight;
-
-  /* Animacje — writes only inside rAF */
   requestAnimationFrame(() => {
     createHoneyDrops();
     animateHoneyParallax();
     animateHeroSection();
-    animateFadeUpElements();
-    animateProductCards(produktyRect, viewportH);
-    animateScaleInElements();
-    animateMobileExtras();
+    animateParallaxEffects();
   });
 
-  /* Odśwież ScrollTrigger po załadowaniu — idle callback */
+  // Single deferred refresh for parallax triggers
   window.addEventListener('load', () => {
-    // Timeout gives browser time to paint before forcing reflow
     setTimeout(() => {
       if ('requestIdleCallback' in window) {
         requestIdleCallback(() => ScrollTrigger.refresh());
       } else {
         ScrollTrigger.refresh();
       }
-    }, 100);
+    }, 200);
   });
 }
 
 /* ══════════════════════════════════════════════════════════════
-   1. HONEY DRIP — TWORZENIE KROPEL
+   HONEY DRIP — TWORZENIE KROPEL
    ══════════════════════════════════════════════════════════════ */
 function createHoneyDrops() {
   const container = document.getElementById('honey-drip-container');
@@ -83,297 +223,87 @@ function createHoneyDrops() {
   drops.forEach(({ size, left, top }) => {
     const drop = document.createElement('div');
     drop.className = 'honey-drip-bg__drop';
-    drop.style.width = `${size}px`;
-    drop.style.height = `${size}px`;
-    drop.style.left = `${left}%`;
-    drop.style.top = `${top}%`;
-    drop.style.opacity = '0';
+    drop.style.cssText = `width:${size}px;height:${size}px;left:${left}%;top:${top}%;opacity:0`;
     container.appendChild(drop);
   });
 }
 
 /* ══════════════════════════════════════════════════════════════
-   2. HONEY DRIP — PARALLAX
+   HONEY DRIP — PARALLAX (GSAP scrub — 1 trigger)
    ══════════════════════════════════════════════════════════════ */
 function animateHoneyParallax() {
   const drops = document.querySelectorAll('.honey-drip-bg__drop');
   if (!drops.length) return;
 
-  /* Fade-in kropel */
-  gsap.to(drops, {
-    opacity: 0.8,
-    duration: 1.5,
-    stagger: 0.15,
-    ease: 'power2.inOut',
-  });
+  gsap.to(drops, { opacity: 0.8, duration: 1.5, stagger: 0.15, ease: 'power2.inOut' });
 
-  /* Każda kropla porusza się z inną prędkością (parallax) — 1 timeline, 1 trigger */
   const speeds = [40, -60, 30, -50, 70, -35];
   const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: '#hero',
-      start: 'top top',
-      end: 'bottom top',
-      scrub: true,
-    },
+    scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true },
   });
-
-  drops.forEach((drop, index) => {
-    tl.to(drop, { y: speeds[index % speeds.length], duration: 1 }, 0);
-  });
+  drops.forEach((drop, i) => tl.to(drop, { y: speeds[i % speeds.length], duration: 1 }, 0));
 }
 
 /* ══════════════════════════════════════════════════════════════
-   3. HERO SECTION — STAGGERED INTRO (Amber & Earth)
+   HERO SECTION — GSAP stagger intro (no ScrollTrigger)
    ══════════════════════════════════════════════════════════════ */
 function animateHeroSection() {
   const heroElements = document.querySelectorAll('#hero .gsap-fade-up');
   const heroFadeIn = document.querySelectorAll('#hero .gsap-fade-in');
 
-  // Staggered fade-up intro dla wszystkich elementów hero
   if (heroElements.length) {
-    gsap.from(heroElements, {
-      y: 40,
-      opacity: 0,
-      duration: 1.2,
-      stagger: 0.15,
-      delay: 0.3,
-      ease: 'power4.out',
-    });
+    gsap.fromTo(heroElements,
+      { y: 40, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1.2, stagger: 0.15, delay: 0.3, ease: 'power4.out' }
+    );
   }
 
   if (heroFadeIn.length) {
-    gsap.from(heroFadeIn, {
-      opacity: 0,
-      duration: 1.5,
-      delay: 1,
-      ease: 'power2.inOut',
-    });
+    gsap.fromTo(heroFadeIn,
+      { opacity: 0 },
+      { opacity: 1, duration: 1.5, delay: 1, ease: 'power2.inOut' }
+    );
   }
 
-  // Parallax dla wideo w tle (subtle movement)
+  // Video parallax — single scrub trigger
   const heroVideo = document.querySelector('.hero-video-bg');
   if (heroVideo) {
     gsap.to(heroVideo, {
-      yPercent: 15,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '#hero',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true,
-      },
+      yPercent: 15, ease: 'none',
+      scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true },
     });
   }
 }
 
 /* ══════════════════════════════════════════════════════════════
-   4. FADE-UP — ScrollTrigger (wszystkie sekcje poza hero)
+   PARALLAX EFFECTS — GSAP scrub only (about image, product cards)
    ══════════════════════════════════════════════════════════════ */
-function animateFadeUpElements() {
-  const elements = document.querySelectorAll(
-    '#o-nas .gsap-fade-up, #korzysci .gsap-fade-up, #kontakt .gsap-fade-up, #produkty > div > .gsap-fade-up'
-  );
-  if (!elements.length) return;
-
-  gsap.set(elements, { opacity: 0, y: 40 });
-  ScrollTrigger.batch(elements, {
-    start: 'top 85%',
-    onEnter: (batch) => {
-      gsap.to(batch, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', stagger: 0.1, overwrite: true });
-    },
-    onLeaveBack: (batch) => {
-      gsap.to(batch, { opacity: 0, y: 40, duration: 0.5, ease: 'power2.in', stagger: 0.05, overwrite: true });
-    },
-  });
-}
-
-/* ══════════════════════════════════════════════════════════════
-   5. PRODUCT CARDS — STAGGERED INTRO + PARALLAX
-   ══════════════════════════════════════════════════════════════ */
-function animateProductCards(precomputedRect, viewportH) {
-  const cards = document.querySelectorAll('#produkty .product-card');
-  if (!cards.length) return;
-
-  // Use precomputed rect to avoid forced reflow inside rAF
-  const isBelowViewport = precomputedRect ? precomputedRect.top > viewportH * 0.5 : false;
-
-  if (isBelowViewport) {
-    // Rząd 1 — wjazd z góry
-    const row1Cards = document.querySelectorAll('.produkty-row-1 .product-card');
-    gsap.set(row1Cards, { y: 50, opacity: 0 });
-    ScrollTrigger.batch(row1Cards, {
-      start: 'top 85%',
-      once: true,
-      onEnter: (batch) => {
-        gsap.to(batch, { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: 'power3.out', overwrite: true });
-      },
-    });
-
-    // Rząd 2 — Akacjowy z lewej, Spadziowy z prawej
-    const akacjowy = document.querySelector('.card-akacjowy');
-    const spadziowy = document.querySelector('.card-spadziowy');
-
-    if (akacjowy) {
-      gsap.set(akacjowy, { x: -80, opacity: 0 });
-      gsap.to(akacjowy, {
-        x: 0, opacity: 1, duration: 1, ease: 'power3.out',
-        scrollTrigger: { trigger: akacjowy, start: 'top 85%', once: true },
-      });
-    }
-
-    if (spadziowy) {
-      gsap.set(spadziowy, { x: 80, opacity: 0 });
-      gsap.to(spadziowy, {
-        x: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 0.15,
-        scrollTrigger: { trigger: spadziowy, start: 'top 85%', once: true },
-      });
-    }
-
-    // Nawłociowy — wjazd z dołu
-    const nawlociowy = document.querySelector('.card-nawlociowy');
-    if (nawlociowy) {
-      gsap.set(nawlociowy, { y: 60, opacity: 0 });
-      gsap.to(nawlociowy, {
-        y: 0, opacity: 1, duration: 0.9, ease: 'power3.out',
-        scrollTrigger: { trigger: nawlociowy, start: 'top 90%', once: true },
-      });
-    }
-  }
-
-  // Parallax — różne prędkości per karta (data-parallax-speed)
-  cards.forEach((card) => {
-    const speed = parseFloat(card.dataset.parallaxSpeed) || 0;
-    if (speed === 0) return;
-
-    gsap.to(card, {
-      yPercent: speed,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '#produkty',
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: true,
-      },
-    });
-  });
-}
-
-/* ══════════════════════════════════════════════════════════════
-   6. SCALE-IN — ScrollTrigger
-   ══════════════════════════════════════════════════════════════ */
-function animateScaleInElements() {
-  const elements = document.querySelectorAll(
-    '#o-nas .gsap-scale-in'
-  );
-  if (!elements.length) return;
-
-  gsap.set(elements, { opacity: 0, scale: 0.92 });
-  ScrollTrigger.batch(elements, {
-    start: 'top 85%',
-    onEnter: (batch) => {
-      gsap.to(batch, { opacity: 1, scale: 1, duration: 1, ease: 'power2.out', stagger: 0.1, overwrite: true });
-    },
-    onLeaveBack: (batch) => {
-      gsap.to(batch, { opacity: 0, scale: 0.92, duration: 0.5, ease: 'power2.in', stagger: 0.05, overwrite: true });
-    },
-  });
-}
-
-/* ══════════════════════════════════════════════════════════════
-   7. MOBILE EXTRAS — Glass Panel Slide-ins + O Nas Animations
-   ══════════════════════════════════════════════════════════════ */
-function animateMobileExtras() {
-  // Glass panels — slide in from side on scroll
-  const glassPanels = document.querySelectorAll(
-    '.glass-lipowy, .glass-gryczany, .glass-akacjowy, .glass-spadziowy, .glass-nawlociowy'
-  );
-
-  if (glassPanels.length) {
-    glassPanels.forEach((panel) => {
-      const isLeft = panel.classList.contains('glass-gryczany') || panel.classList.contains('glass-spadziowy');
-      gsap.set(panel, { x: isLeft ? -40 : 40, opacity: 0 });
-    });
-    ScrollTrigger.batch(glassPanels, {
-      start: 'top 90%',
-      once: true,
-      onEnter: (batch) => {
-        gsap.to(batch, { x: 0, opacity: 1, duration: 0.8, ease: 'power3.out', stagger: 0.1, overwrite: true });
-      },
-    });
-  }
-
-  // O nas — headline slide + paragraphs stagger
-  const aboutHeadline = document.getElementById('about-headline');
-  if (aboutHeadline) {
-    gsap.set(aboutHeadline, { y: 30, opacity: 0 });
-    gsap.to(aboutHeadline, {
-      y: 0, opacity: 1, duration: 1, ease: 'power3.out',
-      scrollTrigger: { trigger: aboutHeadline, start: 'top 85%', once: true },
-    });
-  }
-
-  const aboutParagraphs = document.querySelectorAll('#about-paragraphs p');
-  aboutParagraphs.forEach((p, i) => {
-    gsap.set(p, { y: 25, opacity: 0 });
-    gsap.to(p, {
-      y: 0, opacity: 1, duration: 0.8, delay: i * 0.2, ease: 'power2.out',
-      scrollTrigger: { trigger: p, start: 'top 88%', once: true },
-    });
-  });
-
-  // O nas — image gentle zoom on scroll
+function animateParallaxEffects() {
+  // About image gentle zoom
   const aboutImg = document.querySelector('#o-nas img');
   if (aboutImg) {
     gsap.to(aboutImg, {
-      scale: 1.05,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '#o-nas',
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: true,
-      },
+      scale: 1.05, ease: 'none',
+      scrollTrigger: { trigger: '#o-nas', start: 'top bottom', end: 'bottom top', scrub: true },
     });
   }
 
-  // Product images — subtle reveal on mobile
-  const productImgs = document.querySelectorAll('#produkty .product-card img');
-  productImgs.forEach((img) => {
-    gsap.set(img, { scale: 1.1 });
-    gsap.to(img, {
-      scale: 1,
-      duration: 1.2,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: img.closest('.product-card'),
-        start: 'top 85%',
-        once: true,
-      },
+  // Product cards with data-parallax-speed
+  document.querySelectorAll('#produkty .product-card').forEach((card) => {
+    const speed = parseFloat(card.dataset.parallaxSpeed) || 0;
+    if (speed === 0) return;
+    gsap.to(card, {
+      yPercent: speed, ease: 'none',
+      scrollTrigger: { trigger: '#produkty', start: 'top bottom', end: 'bottom top', scrub: true },
     });
   });
-
-  // Benefits cards — staggered entrance
-  const benefitCards = document.querySelectorAll('#benefits-grid > div');
-  if (benefitCards.length) {
-    gsap.set(benefitCards, { y: 30, opacity: 0 });
-    ScrollTrigger.batch(benefitCards, {
-      start: 'top 88%',
-      once: true,
-      onEnter: (batch) => {
-        gsap.to(batch, { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out', stagger: 0.1, overwrite: true });
-      },
-    });
-  }
 }
 
 /* ══════════════════════════════════════════════════════════════
-   FALLBACK — Jeśli GSAP nie załadował się, pokaż elementy
+   FALLBACK — reveal if GSAP fails
    ══════════════════════════════════════════════════════════════ */
 function revealAllElements() {
-  const hidden = document.querySelectorAll('.gsap-fade-up, .gsap-fade-in, .gsap-scale-in');
-  hidden.forEach((el) => {
-    el.style.opacity = '1';
-    el.style.transform = 'none';
+  document.querySelectorAll('.gsap-fade-up, .gsap-fade-in, .gsap-scale-in').forEach((el) => {
+    el.classList.add('is-visible');
   });
 }
