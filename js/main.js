@@ -20,11 +20,19 @@ const App = {
     this.renderContent();
     this.initInteractions();
 
-    // Lenis + GSAP mogą nie być gotowe (defer) — retry on load
+    // Lenis + GSAP: defer to idle time to prevent forced reflow on init
     const bootDeferred = () => {
-      this.initSmoothScroll();
-      if (window.gsap && window.ScrollTrigger) {
-        initAnimations();
+      const run = () => {
+        this.initSmoothScroll();
+        if (window.gsap && window.ScrollTrigger) {
+          initAnimations();
+        }
+      };
+      // Let browser finish painting before forcing layout reads
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(run, { timeout: 300 });
+      } else {
+        setTimeout(run, 150);
       }
     };
 
