@@ -90,6 +90,7 @@
     .gsap-fade-up{opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease;will-change:transform,opacity}
     .gsap-fade-in{opacity:0;transition:opacity .8s ease;will-change:opacity}
     .gsap-scale-in{opacity:0;transform:scale(.92);transition:opacity .8s ease,transform .8s ease;will-change:transform,opacity}
+    #hero .gsap-fade-up,#hero .gsap-fade-in{opacity:1;transform:none}
     .is-visible{opacity:1!important;transform:none!important}
     /* Lenis */
     html.lenis,html.lenis body{height:auto}
@@ -377,7 +378,7 @@
             </div>
 
             <div class="w-full h-full rounded-2xl overflow-hidden relative shadow-2xl">
-              <img src="public/images/lipowy.miod.jpg" alt="Miód Lipowy" loading="lazy" decoding="async"
+              <img src="public/images/lipowy.miod.webp" alt="Miód Lipowy" loading="lazy" decoding="async"
                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
               <div class="absolute inset-0" style="background: linear-gradient(to bottom, transparent 55%, #14120f 100%);"></div>
             </div>
@@ -584,8 +585,8 @@
           <!-- Wstrzykiwane przez main.js -->
         </div>
       </div>
-      <div class="mt-6 text-center text-xs text-stone-500">
-        Zaprojektował <a href="https://andrzejmich.ch" target="_blank" rel="noopener noreferrer" class="text-stone-400 hover:text-amber-500 transition-colors underline">Andrzej Mich</a>
+      <div class="mt-6 text-center text-xs text-stone-300">
+        Zaprojektował <a href="https://andrzejmich.ch" target="_blank" rel="noopener noreferrer" class="text-stone-200 hover:text-amber-500 transition-colors underline">Andrzej Mich</a>
       </div>
     </div>
   </footer>

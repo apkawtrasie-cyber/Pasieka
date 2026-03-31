@@ -73,36 +73,7 @@ function initGlassPanels() {
   panels.forEach((p) => observer.observe(p));
 }
 
-/* ══════════════════════════════════════════════════════════════
-   PRODUCT CARDS — IntersectionObserver entrance
-   ══════════════════════════════════════════════════════════════ */
-function initProductCardReveal() {
-  const cards = document.querySelectorAll('#produkty .product-card');
-  if (!cards.length) return;
-
-  cards.forEach((card) => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(50px)';
-    card.style.transition = 'opacity .8s ease, transform .8s ease';
-  });
-
-  let idx = 0;
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const delay = (idx % 3) * 120;
-        idx++;
-        setTimeout(() => {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'none';
-        }, delay);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.08, rootMargin: '0px 0px -10% 0px' });
-
-  cards.forEach((c) => observer.observe(c));
-}
+/* Product cards — static, no animation (performance on mobile) */
 
 /* ══════════════════════════════════════════════════════════════
    ABOUT SECTION — IntersectionObserver
@@ -170,7 +141,6 @@ export function initAnimations() {
   // IntersectionObserver animations — work WITHOUT GSAP, zero reflow
   initVisibilityObserver();
   initGlassPanels();
-  initProductCardReveal();
   initAboutAnimations();
   initBenefitCards();
 
