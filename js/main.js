@@ -181,6 +181,10 @@ function renderLangSwitcher() {
 
   // ── Header dropdown (visible on ALL breakpoints) ──
   const headerDiv = document.querySelector('#site-header .max-w-7xl');
+  if (!headerDiv) {
+    console.error('[Lang Switcher] Header div not found');
+    return;
+  }
   const wrapper = el('div', { className: 'relative ml-3', id: 'lang-dropdown-wrapper' });
 
   // Trigger button — shows current flag
@@ -227,9 +231,13 @@ function renderLangSwitcher() {
   });
 
   wrapper.appendChild(panel);
-  // Insert before the hamburger toggle (or at end for desktop)
+  // Insert before the hamburger toggle
   const hamburgerBtn = document.getElementById('mobile-menu-toggle');
-  headerDiv.insertBefore(wrapper, hamburgerBtn);
+  if (hamburgerBtn && hamburgerBtn.parentNode === headerDiv) {
+    headerDiv.insertBefore(wrapper, hamburgerBtn);
+  } else {
+    headerDiv.appendChild(wrapper);
+  }
 
   // ── Toggle logic ──
   let isOpen = false;
@@ -440,21 +448,35 @@ function renderNav() {
     document.body.style.overflow = '';
   }
 
-  toggle.addEventListener('click', () => {
-    const isOpen = menu.getAttribute('aria-hidden') === 'false';
-    isOpen ? closeMenu() : openMenu();
-  });
+  if (toggle && menu) {
+    toggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const isOpen = menu.getAttribute('aria-hidden') === 'false';
+      if (isOpen) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
 
-  // Close button (X) inside overlay
-  const menuCloseBtn = document.getElementById('mobile-menu-close');
-  if (menuCloseBtn) {
-    menuCloseBtn.addEventListener('click', closeMenu);
+    // Close button (X) inside overlay
+    const menuCloseBtn = document.getElementById('mobile-menu-close');
+    if (menuCloseBtn) {
+      menuCloseBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        closeMenu();
+      });
+    }
+
+    // Close mobile menu on link click
+    mobileNav.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        closeMenu();
+      });
+    });
   }
-
-  // Close mobile menu on link click
-  mobileNav.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', closeMenu);
-  });
 }
 
 /* ══════════════════════════════════════════════════════════════
