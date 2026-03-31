@@ -44,36 +44,7 @@ function initVisibilityObserver() {
   });
 }
 
-/* ══════════════════════════════════════════════════════════════
-   GLASS PANELS — IntersectionObserver slide-in
-   ══════════════════════════════════════════════════════════════ */
-function initGlassPanels() {
-  const panels = document.querySelectorAll(
-    '.glass-lipowy, .glass-gryczany, .glass-akacjowy, .glass-spadziowy, .glass-nawlociowy'
-  );
-  if (!panels.length) return;
-
-  panels.forEach((panel) => {
-    const isLeft = panel.classList.contains('glass-gryczany') || panel.classList.contains('glass-spadziowy');
-    panel.style.opacity = '0';
-    panel.style.transform = `translateX(${isLeft ? -40 : 40}px)`;
-    panel.style.transition = 'opacity .8s cubic-bezier(.4,0,.2,1), transform .8s cubic-bezier(.4,0,.2,1)';
-  });
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'none';
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
-
-  panels.forEach((p) => observer.observe(p));
-}
-
-/* Product cards — static, no animation (performance on mobile) */
+/* Product cards + glass panels — static, no animation (mobile perf) */
 
 /* ══════════════════════════════════════════════════════════════
    ABOUT SECTION — IntersectionObserver
@@ -140,7 +111,6 @@ function initBenefitCards() {
 export function initAnimations() {
   // IntersectionObserver animations — work WITHOUT GSAP, zero reflow
   initVisibilityObserver();
-  initGlassPanels();
   initAboutAnimations();
   initBenefitCards();
 
@@ -249,7 +219,7 @@ function animateHeroSection() {
    PARALLAX EFFECTS — GSAP scrub only (about image, product cards)
    ══════════════════════════════════════════════════════════════ */
 function animateParallaxEffects() {
-  // About image gentle zoom
+  // About image gentle zoom — only parallax left
   const aboutImg = document.querySelector('#o-nas img');
   if (aboutImg) {
     gsap.to(aboutImg, {
@@ -257,16 +227,6 @@ function animateParallaxEffects() {
       scrollTrigger: { trigger: '#o-nas', start: 'top bottom', end: 'bottom top', scrub: true },
     });
   }
-
-  // Product cards with data-parallax-speed
-  document.querySelectorAll('#produkty .product-card').forEach((card) => {
-    const speed = parseFloat(card.dataset.parallaxSpeed) || 0;
-    if (speed === 0) return;
-    gsap.to(card, {
-      yPercent: speed, ease: 'none',
-      scrollTrigger: { trigger: '#produkty', start: 'top bottom', end: 'bottom top', scrub: true },
-    });
-  });
 }
 
 /* ══════════════════════════════════════════════════════════════
