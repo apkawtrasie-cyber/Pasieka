@@ -8,9 +8,9 @@
  * ============================================================
  */
 
-import { CONFIG } from './config.js?v=5';
-import { initAnimations } from './animations.js?v=5';
-import { t, getLang, setLang, getFlags, getLangNames, getAvailableLangs, translatePage } from './i18n.js?v=5';
+import { CONFIG } from './config.js?v=6';
+import { initAnimations } from './animations.js?v=6';
+import { t, getLang, setLang, getFlags, getLangNames, getAvailableLangs, translatePage } from './i18n.js?v=6';
 
 /* ── App Object ── */
 const App = {
@@ -325,7 +325,7 @@ function renderNav() {
     // Desktop link
     const dLink = el('a', {
       href,
-      className: 'nav-link text-stone-700 hover:text-amber-700 font-medium text-sm transition-colors',
+      className: 'nav-link text-white hover:text-amber-400 font-medium text-sm transition-colors',
       'aria-label': translatedLabel,
     }, translatedLabel);
     desktopNav.appendChild(dLink);
